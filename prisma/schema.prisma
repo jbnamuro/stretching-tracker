@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  displayName  String   @map("display_name")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  stretches       Stretch[]
+  routines        Routine[]
+  calendarEntries CalendarEntry[]
+
+  @@map("users")
+}
+
+model Stretch {
+  id              String   @id @default(uuid())
+  userId          String   @map("user_id")
+  name            String
+  description     String?
+  durationSeconds Int      @map("duration_seconds")
+  muscleGroup     String   @map("muscle_group")
+  difficulty      String   @default("beginner")
+  isCustom        Boolean  @default(true) @map("is_custom")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  routineStretches RoutineStretch[]
+
+  @@map("stretches")
+}
+
+model Routine {
+  id            String   @id @default(uuid())
+  userId        String   @map("user_id")
+  name          String
+  description   String?
+  aiGenerated   Boolean  @default(false) @map("ai_generated")
+  totalDuration Int      @default(0) @map("total_duration")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  routineStretches RoutineStretch[]
+  calendarEntries  CalendarEntry[]
+
+  @@map("routines")
+}
+
+model RoutineStretch {
+  id             String @id @default(uuid())
+  routineId      String @map("routine_id")
+  stretchId      String @map("stretch_id")
+  orderIndex     Int    @map("order_index")
+  customDuration Int?   @map("custom_duration")
+
+  routine Routine @relation(fields: [routineId], references: [id], onDelete: Cascade)
+  stretch Stretch @relation(fields: [stretchId], references: [id], onDelete: Cascade)
+
+  @@unique([routineId, orderIndex])
+  @@map("routine_stretches")
+}
+
+model CalendarEntry {
+  id             String   @id @default(uuid())
+  userId         String   @map("user_id")
+  routineId      String   @map("routine_id")
+  completedDate  DateTime @map("completed_date") @db.Date
+  actualDuration Int?     @map("actual_duration")
+  notes          String?
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  routine Routine @relation(fields: [routineId], references: [id], onDelete: Cascade)
+
+  @@map("calendar_entries")
+}
