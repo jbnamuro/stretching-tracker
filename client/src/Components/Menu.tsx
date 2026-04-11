@@ -3,9 +3,8 @@ import MenuItem from './MenuItem'
 
 const items = [
     { name: "Dashboard", img: '', linkStr: '/dashboard' },
-    { name: "Timer", img: '', linkStr: '/timer' },
-    { name: "Calendar", img: '', linkStr: '/timer' },
-    { name: "Library", img: '', linkStr: '/timer' }
+    { name: "Library", img: '', linkStr: '/timer' },
+    { name: "Generate", img: '', linkStr: '/timer' },
 ]
 
 const Menu = () => {

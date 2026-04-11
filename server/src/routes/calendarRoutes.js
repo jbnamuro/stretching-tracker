@@ -6,7 +6,7 @@ import { createCalendarEntrySchema, updateCalendarEntrySchema } from '../validat
 
 const router = express.Router();
 
-router.use(authMiddleware);
+// router.use(authMiddleware);
 
 router.get('/', getCalendarEntries);
 router.get('/:id', getCalendarEntry);

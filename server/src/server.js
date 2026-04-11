@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import {config} from 'dotenv';
 import stretchesRouter from './routes/stretches.js';
 import authRoutes from './routes/authRoutes.js';
@@ -14,6 +15,7 @@ connectDB();
 const app = express();
 const PORT = 5001;
 
+app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:5173' }));
 app.use(express.json());
 
 app.use('/auth', authRoutes);

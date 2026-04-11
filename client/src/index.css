@@ -2,62 +2,89 @@
 
 @theme {
     /* Brand */
-    --color-primary: #2a674c;
+    --color-primary: #3a6761;
+    --color-primary-dim: #2e5b55;
     --color-on-primary: #ffffff;
     --color-primary-container: #a8f0c6;
     /* also used as primary-fixed */
+    --color-primary-fixed-dim: #c8e8e4;
+    /* subtle background accent behind illustrations / icons */
     --color-on-primary-container: #002114;
 
     --color-secondary: #00658d;
     --color-on-secondary: #ffffff;
     --color-secondary-container: #c3e8ff;
+    /* active chip state */
 
     --color-tertiary: #4e6b00;
     --color-on-tertiary: #ffffff;
     --color-tertiary-container: #cbe8b0;
 
     /* Surfaces (level 0 → highest) */
-    --color-background: #f8faf9;
-    /* also used as surface */
+    --color-surface: #f8fafa;
+    /* canvas — base layer */
+    --color-background: #f8fafa;
     --color-surface-container-lowest: #ffffff;
-    --color-surface-container-low: #f2f4f3;
-    --color-surface-container: #eceeed;
-    --color-surface-container-high: #e6e9e7;
-    --color-surface-container-highest: #e0e3e1;
+    /* high-interaction cards */
+    --color-surface-container-low: #f0f4f4;
+    /* sectioning / grouping */
+    --color-surface-container: #e8eeee;
+    --color-surface-container-high: #e2e9e9;
+    /* inactive chip state */
+    --color-surface-container-highest: #dce4e4;
+    /* secondary button bg, text field focus */
 
-    /* Text */
-    --color-on-surface: #191c1c;
-    --color-on-surface-variant: #3f4945;
+    /* Text — never pure black */
+    --color-on-surface: #2d3435;
+    --color-on-surface-variant: #4a5556;
 
-    /* Borders */
+    /* Borders — use at low opacity only (ghost border = 15%) */
     --color-outline: #6f7975;
+    --color-outline-variant: #b8c8c8;
 
     /* Typography */
     --font-display: "Manrope", sans-serif;
     --font-body: "Inter", sans-serif;
 
     --text-display-lg: 3.5rem;
+    --text-display-md: 2.75rem;
+    --text-headline-lg: 2rem;
     --text-headline-md: 1.75rem;
     --text-headline-sm: 1.5rem;
+    --text-title-sm: 0.9375rem;
+    --text-body-lg: 1.125rem;
     --text-body: 1rem;
     --text-label: 0.875rem;
     --text-label-sm: 0.6875rem;
 
+    --tracking-display: -0.02em;
+    /* editorial tightness for Manrope headlines */
     --tracking-category: 0.05em;
+    --leading-body: 1.6;
+    /* breathable line height for instructional copy */
 
     /* Spacing */
+    --spacing-icon-safe: 12px;
+    /* minimum safe zone around icons */
     --spacing-item-gap: 1rem;
     --spacing-section: 5.5rem;
     --spacing-hero: 7rem;
 
     /* Radius */
-    --radius-md: 0.5rem;
+    --radius-sm: 0.25rem;
+    /* checkboxes, tooltips */
+    --radius-md: 0.75rem;
+    /* chips */
     --radius-xl: 1.5rem;
+    /* cards, modals */
     --radius-full: 9999px;
+    /* buttons, pills */
 
     /* Effects */
-    --shadow-ambient: 0 20px 40px rgba(25, 28, 28, 0.06);
-    --blur-glass: 20px;
+    --shadow-ambient: 0 8px 40px rgba(45, 52, 53, 0.06);
+    /* soft-box float shadow */
+    --blur-glass: 24px;
+    /* frosted glass nav / timers */
 }
 
 body {
