@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+@theme {
+    /* Brand */
+    --color-primary: #2a674c;
+    --color-on-primary: #ffffff;
+    --color-primary-container: #a8f0c6;
+    /* also used as primary-fixed */
+    --color-on-primary-container: #002114;
+
+    --color-secondary: #00658d;
+    --color-on-secondary: #ffffff;
+    --color-secondary-container: #c3e8ff;
+
+    --color-tertiary: #4e6b00;
+    --color-on-tertiary: #ffffff;
+    --color-tertiary-container: #cbe8b0;
+
+    /* Surfaces (level 0 → highest) */
+    --color-background: #f8faf9;
+    /* also used as surface */
+    --color-surface-container-lowest: #ffffff;
+    --color-surface-container-low: #f2f4f3;
+    --color-surface-container: #eceeed;
+    --color-surface-container-high: #e6e9e7;
+    --color-surface-container-highest: #e0e3e1;
+
+    /* Text */
+    --color-on-surface: #191c1c;
+    --color-on-surface-variant: #3f4945;
+
+    /* Borders */
+    --color-outline: #6f7975;
+
+    /* Typography */
+    --font-display: "Manrope", sans-serif;
+    --font-body: "Inter", sans-serif;
+
+    --text-display-lg: 3.5rem;
+    --text-headline-md: 1.75rem;
+    --text-headline-sm: 1.5rem;
+    --text-body: 1rem;
+    --text-label: 0.875rem;
+    --text-label-sm: 0.6875rem;
+
+    --tracking-category: 0.05em;
+
+    /* Spacing */
+    --spacing-item-gap: 1rem;
+    --spacing-section: 5.5rem;
+    --spacing-hero: 7rem;
+
+    /* Radius */
+    --radius-md: 0.5rem;
+    --radius-xl: 1.5rem;
+    --radius-full: 9999px;
+
+    /* Effects */
+    --shadow-ambient: 0 20px 40px rgba(25, 28, 28, 0.06);
+    --blur-glass: 20px;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: var(--font-body);
+    background-color: var(--color-background);
+    color: var(--color-on-surface);
+}
