@@ -5,6 +5,7 @@ import { Temporal } from '@js-temporal/polyfill'
 const Streak = () => {
     const daysObject: Array<{ weekdayShort: string; day: string }> = [];
     let currentDate = Temporal.Now.plainDateISO();
+    currentDate = currentDate.subtract({ days: 1 }); // 
 
     for (let i = 0; i < 5; i++) {
         const weekdayLong = currentDate.toLocaleString('en-US', { weekday: 'long' });
