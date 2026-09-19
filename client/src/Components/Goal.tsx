@@ -11,8 +11,7 @@ const Goal = () => {
         const getMinsCompleted = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const userId = '2807ef65-e5d0-49d2-9058-bc9ec2d62d13';
-                const response = await fetch(`${API}/calendar?userId=${userId}`, {
+                const response = await fetch(`${API}/calendar`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }

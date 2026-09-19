@@ -3,7 +3,7 @@ import { prisma } from '../config/db.js';
 const getCalendarEntries = async (req, res) => {
     try {
         const { startDate, endDate } = req.query;
-        const where = { userId: req.query.userId };
+        const where = { userId: req.user.id };
         if (startDate || endDate) {
             where.completedDate = {};
             if (startDate) where.completedDate.gte = new Date(startDate);
