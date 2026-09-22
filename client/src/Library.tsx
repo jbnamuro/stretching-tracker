@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import API from './lib/api';
+import { Link } from 'react-router-dom';
 
 const Library = () => {
 
-    const [routine, setRoutine] = useState<Array<{ routineName: string; routineDescription: string | null }>>([]);
+    const [routine, setRoutine] = useState<Array<{ routineName: string; routineDescription: string | null; routineID: string }>>([]);
     useEffect(() => {
         const getLibrary = async () => {
             try {
@@ -20,12 +21,13 @@ const Library = () => {
                 console.log(data);
                 const entries = data.data.routines;
 
-                const routines: Array<{ routineName: string; routineDescription: string | null }> = [];
+                const routines: Array<{ routineName: string; routineDescription: string | null; routineID: string }> = [];
 
                 for (let i = 0; i < entries.length && i < 3; i++) {
                     routines.push({
                         routineName: entries[i].name,
                         routineDescription: entries[i].description,
+                        routineID: entries[i].id
                     });
                 }
 
@@ -40,12 +42,14 @@ const Library = () => {
     return (
         <div>
             {routine.map((entry, index) => (
-                <div key={index}>
+                <div key={index} className='mb-5'>
                     <p>{entry.routineName}</p>
                     <p>{entry.routineDescription}</p>
+                    <Link to={`/routines/${entry.routineID}`}>View Details</Link>
                 </div>
             ))}
         </div>
+
     );
 };
 
