@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 
 const Routine = () => {
-    const [routine, setRoutine] = useState<{ routineName: string; routineDescription: string; totalDuration: number | null; routineStretches: Array<{}> } | null>(null);
+    const [stretches, setRoutine] = useState<{ routineName: string; routineDescription: string; totalDuration: number | null; routineStretches: Array<{}> } | null>(null);
     const { id } = useParams();
     useEffect(() => {
         const getRoutine = async () => {
@@ -39,13 +39,13 @@ const Routine = () => {
 
     return (
         <div>
-            {routine ? (
+            {stretches ? (
                 <div>
-                    <h2>{routine.routineName}</h2>
-                    <p>{routine.routineDescription}</p>
-                    <p>Duration: {routine.totalDuration !== null ? `${routine.totalDuration} seconds` : 'Not specified'}</p>
-                    <p>Stretches: {routine.routineStretches?.length || 0}</p>
-                    <Link to={'#'}>Begin Routine</Link>
+                    <h2>{stretches.routineName}</h2>
+                    <p>{stretches.routineDescription}</p>
+                    <p>Duration: {stretches.totalDuration !== null ? `${stretches.totalDuration} seconds` : 'Not specified'}</p>
+                    <p>Stretches: {stretches.routineStretches?.length || 0}</p>
+                    <Link to={`/routines/${id}/play`}>Begin Routine</Link>
                 </div>
             ) : (
                 <p>Loading</p>

@@ -7,6 +7,7 @@ import Menu from './Components/Menu'
 import Header from './Components/Header'
 import Library from './Library'
 import Routine from './Components/Routine'
+import Play from './Components/Play'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -15,9 +16,11 @@ createRoot(document.getElementById('root')!).render(
       <Menu />
 
       <Routes>
+        <Route path="*" element={<Dashboard />} />
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/library' element={<Library />} />
         <Route path="routines/:id" element={<Routine />} />
+        <Route path='routines/:id/play' element={<Play />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,

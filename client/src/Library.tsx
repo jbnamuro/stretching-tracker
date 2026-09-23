@@ -23,7 +23,7 @@ const Library = () => {
 
                 const routines: Array<{ routineName: string; routineDescription: string | null; routineID: string }> = [];
 
-                for (let i = 0; i < entries.length && i < 3; i++) {
+                for (let i = 0; i < entries.length && i < 4; i++) {
                     routines.push({
                         routineName: entries[i].name,
                         routineDescription: entries[i].description,
