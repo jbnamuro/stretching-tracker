@@ -8,6 +8,7 @@ import Header from './Components/Header'
 import Library from './Library'
 import Routine from './Components/Routine'
 import Play from './Components/Play'
+import Generate from './Generate'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -19,6 +20,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="*" element={<Dashboard />} />
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/library' element={<Library />} />
+        <Route path='/generate' element={<Generate />} />
         <Route path="routines/:id" element={<Routine />} />
         <Route path='routines/:id/play' element={<Play />} />
       </Routes>

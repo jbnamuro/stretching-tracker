@@ -1,4 +1,9 @@
 import { prisma } from '../config/db.js';
+import Anthropic from '@anthropic-ai/sdk';
+
+const anthropic = new Anthropic({
+    apiKey: process.env.ANTHROPIC_API_KEY,
+});
 
 const getRoutines = async (req, res) => {
     try {
@@ -31,6 +36,78 @@ const getRoutine = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Server error" });
+    }
+};
+
+const generateRoutine = async (req, res) => {
+    try {
+        const prompt = req.body.prompt?.trim();
+        if (!prompt) {
+            return res.status(400).json({ message: "prompt is required" });
+        }
+
+        const stretches = await prisma.stretch.findMany({
+            where: { userId: req.user.id },
+            orderBy: { name: 'asc' },
+        });
+
+        if (stretches.length === 0) {
+            return res.status(400).json({ message: "Create stretches before generating a routine" });
+        }
+
+        const availableStretches = stretches.map(({ id, name, description, durationSeconds, muscleGroup, difficulty }) => ({
+            id,
+            name,
+            description,
+            durationSeconds,
+            muscleGroup,
+            difficulty,
+        }));
+
+        const message = await anthropic.messages.create({
+            model: process.env.ANTHROPIC_MODEL || 'claude-3-5-haiku-latest',
+            max_tokens: 500,
+            system: 'Return only valid JSON. Choose stretches only from the provided list.',
+            messages: [{
+                role: 'user',
+                content: `User request: ${prompt}\n\nAvailable stretches:\n${JSON.stringify(availableStretches)}`,
+            }],
+        });
+
+        const text = message.content.find((item) => item.type === 'text')?.text;
+        if (!text) {
+            return res.status(502).json({ message: "Anthropic returned no routine" });
+        }
+
+        const generated = JSON.parse(text.replace(/^```json\s*|\s*```$/g, ''));
+        const selectedStretches = generated.stretchIds?.map((id) => stretches.find((stretch) => stretch.id === id));
+
+        if (!generated.name || !generated.description || !selectedStretches?.length || selectedStretches.some((stretch) => !stretch)) {
+            return res.status(502).json({ message: "Anthropic returned invalid routine data" });
+        }
+
+        const totalDuration = selectedStretches.reduce((total, stretch) => total + stretch.durationSeconds, 0);
+        const routine = await prisma.routine.create({
+            data: {
+                userId: req.user.id,
+                name: generated.name,
+                description: generated.description,
+                aiGenerated: true,
+                totalDuration,
+                routineStretches: {
+                    create: selectedStretches.map((stretch, orderIndex) => ({
+                        stretchId: stretch.id,
+                        orderIndex,
+                    })),
+                },
+            },
+            include: { routineStretches: { include: { stretch: true }, orderBy: { orderIndex: 'asc' } } },
+        });
+
+        res.status(201).json({ status: "success", data: { routine } });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Routine generation failed" });
     }
 };
 
@@ -148,6 +225,6 @@ const reorderStretches = async (req, res) => {
 };
 
 export {
-    getRoutines, getRoutine, createRoutine, updateRoutine, deleteRoutine,
+    getRoutines, getRoutine, generateRoutine, createRoutine, updateRoutine, deleteRoutine,
     addStretchToRoutine, removeStretchFromRoutine, reorderStretches
 };

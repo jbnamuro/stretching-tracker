@@ -4,7 +4,7 @@ import MenuItem from './MenuItem'
 const items = [
     { name: "Dashboard", img: '', linkStr: '/dashboard' },
     { name: "Library", img: '', linkStr: '/library' },
-    { name: "Generate", img: '', linkStr: '/timer' },
+    { name: "Generate", img: '', linkStr: '/generate' },
 ]
 
 const Menu = () => {

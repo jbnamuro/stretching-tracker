@@ -9,7 +9,7 @@ const Play = () => {
     const { id } = useParams();
     const [timerValue, setTimerValue] = useState<number>(0);
     const [isRunning, setIsRunning] = useState<boolean>(false);
-    const [stretchIndex, setIndex] = useState<number>(0);
+    const [stretchIndex, setIndex] = useState<number>(1);
     useEffect(() => {
         const getRoutine = async () => {
             try {
@@ -25,7 +25,7 @@ const Play = () => {
                 const data = await response.json();
                 const routine = data.data.routine;
                 console.log(routine.routineStretches);
-                // setTimerValue(routine.routineStretches[0].stretch.durationSeconds);
+                setTimerValue(routine.routineStretches[0].stretch.durationSeconds);
                 setRoutine({
                     routineStretches: routine.routineStretches || []
                 });

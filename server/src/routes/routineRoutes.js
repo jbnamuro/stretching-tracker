@@ -1,7 +1,7 @@
 import express from 'express';
 import authMiddleware from '../middleware/authMiddleware.js';
 import validateRequest from '../middleware/validateRequest.js';
-import { getRoutines, getRoutine, createRoutine, updateRoutine, deleteRoutine, addStretchToRoutine, removeStretchFromRoutine, reorderStretches } from '../controllers/routineController.js';
+import { getRoutines, getRoutine, generateRoutine, createRoutine, updateRoutine, deleteRoutine, addStretchToRoutine, removeStretchFromRoutine, reorderStretches } from '../controllers/routineController.js';
 import { createRoutineSchema, updateRoutineSchema, addStretchSchema, reorderStretchesSchema } from '../validators/routineValidators.js';
 
 const router = express.Router();
@@ -9,6 +9,7 @@ const router = express.Router();
 router.use(authMiddleware);
 
 router.get('/', getRoutines);
+router.post('/generate', generateRoutine);
 router.get('/:id', getRoutine);
 router.post('/', validateRequest(createRoutineSchema), createRoutine);
 router.put('/:id', validateRequest(updateRoutineSchema), updateRoutine);
