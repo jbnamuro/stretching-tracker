@@ -9,7 +9,12 @@ const getRoutines = async (req, res) => {
     try {
         const routines = await prisma.routine.findMany({
             where: { userId: req.user.id },
-            orderBy: { createdAt: 'desc' }
+            orderBy: { createdAt: 'desc' },
+            include: {
+                _count: {
+                    select: { routineStretches: true }
+                }
+            }
         });
         res.status(200).json({ status: "success", data: { routines } });
     } catch (error) {

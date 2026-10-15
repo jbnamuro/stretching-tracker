@@ -1,10 +1,9 @@
-import React from 'react'
 import MenuItem from './MenuItem'
 
 const items = [
     { name: "Dashboard", img: '', linkStr: '/dashboard' },
     { name: "Library", img: '', linkStr: '/library' },
-    { name: "Generate", img: '', linkStr: '/generate' },
+    { name: "Progress", img: '', linkStr: '/progress' },
 ]
 
 const Menu = () => {

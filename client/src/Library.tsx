@@ -4,7 +4,13 @@ import { Link } from 'react-router-dom';
 
 const Library = () => {
 
-    const [routine, setRoutine] = useState<Array<{ routineName: string; routineDescription: string | null; routineID: string }>>([]);
+    const [routine, setRoutine] = useState<Array<{
+        routineName: string
+        routineDescription: string | null
+        routineID: string
+        totalDuration: number
+        stretchCount: number
+    }>>([]);
     const additional = document.getElementsByClassName('menu');
     const menuHeight = additional[0]?.clientHeight || 0;
 
@@ -24,13 +30,21 @@ const Library = () => {
                 console.log(data);
                 const entries = data.data.routines;
 
-                const routines: Array<{ routineName: string; routineDescription: string | null; routineID: string }> = [];
+                const routines: Array<{
+                    routineName: string
+                    routineDescription: string | null
+                    routineID: string
+                    totalDuration: number
+                    stretchCount: number
+                }> = [];
 
                 for (let i = 0; i < entries.length && i < 4; i++) {
                     routines.push({
                         routineName: entries[i].name,
                         routineDescription: entries[i].description,
-                        routineID: entries[i].id
+                        routineID: entries[i].id,
+                        totalDuration: entries[i].totalDuration,
+                        stretchCount: entries[i]._count.routineStretches
                     });
                 }
 
@@ -49,14 +63,18 @@ const Library = () => {
                     <p className='mb-5 ml-5 text-2xl font-medium'>All sequences</p>
                     {
                         routine.map((entry, index) => (
-                            <div>
-                                <div key={index} className='mb-5 bg-red-200 rounded-xl p-5 mx-5 flex gap-2'>
-                                    <img src="" alt="hold" />
-                                    <div>
-                                        <p className='text-lg font-medium mb-2'>{entry.routineName}</p>
-                                        <p className='text-sm mb-2'>{entry.routineDescription}</p>
-                                        <Link to={`/routines/${entry.routineID}`}>View Details</Link>
+                            <div key={entry.routineID} className='mb-5 bg-surface-container-low drop-shadow-lg rounded-xl p-5 mx-5 flex gap-4'>
+                                <div className='bg-primary-fixed-dim h-fit py-1 px-3 flex justify-center items-center rounded-lg'>
+                                    <p className='text-primary'>{String(index + 1).padStart(2, '0')}</p>
+                                </div>
+                                <div>
+                                    <p className='text-lg font-medium mb-2'>{entry.routineName}</p>
+                                    <p className='text-sm mb-2'>{entry.routineDescription}</p>
+                                    <div className='mb-3 flex gap-6 text-sm'>
+                                        <p>Duration: {Math.floor(entry.totalDuration / 60).toString().padStart(2, '0')}:{(entry.totalDuration % 60).toString().padStart(2, '0')}</p>
+                                        <p>Stretches: {entry.stretchCount}</p>
                                     </div>
+                                    <Link to={`/routines/${entry.routineID}/play`}>Begin Routine</Link>
                                 </div>
                             </div>
                         ))

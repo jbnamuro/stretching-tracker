@@ -82,4 +82,17 @@ const logout = async (req, res) => {
         message: "Logged out successfully"
     });
 };
-export { register, login, logout };
+
+const getCurrentUser = (req, res) => {
+    res.status(200).json({
+        status: "success",
+        data: {
+            user: {
+                id: req.user.id,
+                displayName: req.user.displayName
+            }
+        }
+    });
+};
+
+export { register, login, logout, getCurrentUser };
