@@ -60,7 +60,7 @@ const Library = () => {
         <div>
             {routine ? (
                 <div style={{ marginBottom: menuHeight + 20 }}>
-                    <p className='mb-5 ml-5 text-2xl font-medium'>All sequences</p>
+                    <p className='mb-3 ml-5 text-2xl font-medium'>All sequences</p>
                     {
                         routine.map((entry, index) => (
                             <div key={entry.routineID} className='mb-5 bg-surface-container-low drop-shadow-lg rounded-xl p-5 mx-5 flex gap-4'>
@@ -71,10 +71,10 @@ const Library = () => {
                                     <p className='text-lg font-medium mb-2'>{entry.routineName}</p>
                                     <p className='text-sm mb-2'>{entry.routineDescription}</p>
                                     <div className='mb-3 flex gap-6 text-sm'>
-                                        <p>Duration: {Math.floor(entry.totalDuration / 60).toString().padStart(2, '0')}:{(entry.totalDuration % 60).toString().padStart(2, '0')}</p>
-                                        <p>Stretches: {entry.stretchCount}</p>
+                                        <p>Duration: <span className='text-primary'>{Math.floor(entry.totalDuration / 60).toString().padStart(2, '0')}:{(entry.totalDuration % 60).toString().padStart(2, '0')}</span></p>
+                                        <p>Stretches: <span className='text-primary'>{entry.stretchCount}</span></p>
                                     </div>
-                                    <Link to={`/routines/${entry.routineID}/play`}>Begin Routine</Link>
+                                    <Link to={`/routines/${entry.routineID}/play`}><p className='text-sm bg-surface-container-highest w-fit px-2 rounded-2xl py-1 hover:text-primary hover:bg-surface-container-high ease-in-out duration-300'>Begin Routine</p></Link>
                                 </div>
                             </div>
                         ))
