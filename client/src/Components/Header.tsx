@@ -1,6 +1,3 @@
-import React from 'react'
-import vector from '../assets/Vector.png'
-
 const Header = () => {
     return (
         <div className='flex items-center py-4 justify-between px-5'>

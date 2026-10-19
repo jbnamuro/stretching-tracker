@@ -12,12 +12,19 @@ const prisma = new PrismaClient({
 });
 
 async function main() {
-    const passwordHash = await bcrypt.hash("password123", 10);
+    const demoPassword = process.env.DEMO_PASSWORD;
+    if (!demoPassword) {
+        throw new Error("Set DEMO_PASSWORD before running the seed script.");
+    }
 
-    const user = await prisma.user.upsert({
+    const passwordHash = await bcrypt.hash(demoPassword, 10);
+
+    await prisma.user.deleteMany({
         where: { email: "demo@example.com" },
-        update: {},
-        create: {
+    });
+
+    const user = await prisma.user.create({
+        data: {
             email: "demo@example.com",
             passwordHash,
             displayName: "Demo User",
