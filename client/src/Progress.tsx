@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react"
 import { Temporal } from "@js-temporal/polyfill"
 import API from "./lib/api"
+import Loading from "./Components/Loading"
 
 const Progress = () => {
     const [displayName, setDisplayName] = useState('')
+    const [loading, setLoading] = useState(true)
+    const [loadError, setLoadError] = useState(false)
     const [entries, setEntries] = useState<Array<{
         id: string
         completedDate: string
@@ -40,6 +43,10 @@ const Progress = () => {
             }
             catch (err) {
                 console.error(err)
+                setLoadError(true)
+            }
+            finally {
+                setLoading(false)
             }
         }
         getPageData()
@@ -74,34 +81,42 @@ const Progress = () => {
 
     return (
         <div className="">
-            <h1 className="text-2xl ml-5 font-medium">{displayName}</h1>
-            <div className="flex bg-surface-container-low justify-between items-center mt-5 mx-5 drop-shadow-lg rounded-lg p-5">
-                <p>{entries.length} Sessions</p>
-                <p>{Math.round(entries.reduce((acc, entry) => acc + (entry.actualDuration ?? 0), 0) / 60)} minutes</p>
-            </div>
-            <div className="bg-surface-container-low rounded-xl mx-5 mt-5 p-5 drop-shadow-lg">
-                <h2 className="mb-5 text-lg font-medium">Volume this week</h2>
-                <div className="grid grid-cols-7 gap-3" aria-label="Minutes of stretching from Monday to Sunday">
-                    {week.map((day) => {
-                        const barHeight = day.minutes > 0
-                            ? Math.max((day.minutes / maxMinutes) * 128, 4)
-                            : 0
+            {loading ? (
+                <Loading />
+            ) : loadError ? (
+                <p className="mx-5 mt-5 text-center text-on-surface-variant">Could not load progress. Please try again.</p>
+            ) : (
+                <>
+                    <h1 className="text-2xl ml-5 font-medium">{displayName}</h1>
+                    <div className="flex bg-surface-container-low justify-between items-center mt-5 mx-5 drop-shadow-lg rounded-lg p-5">
+                        <p>{entries.length} Sessions</p>
+                        <p>{Math.round(entries.reduce((acc, entry) => acc + (entry.actualDuration ?? 0), 0) / 60)} minutes</p>
+                    </div>
+                    <div className="bg-surface-container-low rounded-xl mx-5 mt-5 p-5 drop-shadow-lg">
+                        <h2 className="mb-5 text-lg font-medium">Volume this week</h2>
+                        <div className="grid grid-cols-7 gap-3" aria-label="Minutes of stretching from Monday to Sunday">
+                            {week.map((day) => {
+                                const barHeight = day.minutes > 0
+                                    ? Math.max((day.minutes / maxMinutes) * 128, 4)
+                                    : 0
 
-                        return (
-                            <div key={day.dateKey} className="flex min-w-0 flex-col items-center">
-                                <span className="mb-5 text-xs font-medium">{day.minutes} m</span>
-                                <div className="flex w-full items-end rounded-xl bg-surface-container p-1" style={{ height: '128px' }}>
-                                    <div
-                                        className="w-full rounded-xl bg-primary"
-                                        style={{ height: `${barHeight}px` }}
-                                    />
-                                </div>
-                                <span className="mt-5 text-xs font-medium">{day.label}</span>
-                            </div>
-                        )
-                    })}
-                </div>
-            </div>
+                                return (
+                                    <div key={day.dateKey} className="flex min-w-0 flex-col items-center">
+                                        <span className="mb-5 text-xs font-medium">{day.minutes} m</span>
+                                        <div className="flex w-full items-end rounded-xl bg-surface-container p-1" style={{ height: '128px' }}>
+                                            <div
+                                                className="w-full rounded-xl bg-primary"
+                                                style={{ height: `${barHeight}px` }}
+                                            />
+                                        </div>
+                                        <span className="mt-5 text-xs font-medium">{day.label}</span>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
     )
 }

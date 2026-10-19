@@ -98,3 +98,32 @@ body {
 body::-webkit-scrollbar {
     display: none;
 }
+
+.loading-wave svg {
+    animation: loading-wave 3s linear infinite;
+}
+
+@keyframes loading-wave {
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .loading-wave svg {
+        animation: none;
+    }
+}
+
+.masked {
+    background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+    mask-image: url("./shape.svg");
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
+    -webkit-mask-image: url("./shape.svg");
+    /* Safari still wants the prefix */
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: contain;
+}

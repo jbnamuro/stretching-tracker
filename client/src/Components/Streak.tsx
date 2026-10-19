@@ -1,31 +1,6 @@
-import { useEffect, useState } from 'react'
-import API from '../lib/api'
 import { Temporal } from '@js-temporal/polyfill'
 
-const Streak = () => {
-    const [completedDates, setCompletedDates] = useState<string[]>([])
-
-    useEffect(() => {
-        const getStreak = async () => {
-            try {
-                const token = localStorage.getItem('token');
-                const response = await fetch(`${API}/calendar`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-                if (!response.ok) {
-                    throw new Error(`HTTP Error ${response.status}`);
-                }
-                const data = await response.json();
-                setCompletedDates(data.data.entries.map((entry: { completedDate: string }) => entry.completedDate.slice(0, 10)))
-            } catch (err) {
-                console.error(err);
-            }
-        }
-        getStreak()
-    }, [])
-
+const Streak = ({ completedDates }: { completedDates: string[] }) => {
     const today = Temporal.Now.plainDateISO()
     const completedDateSet = new Set(completedDates)
     const daysObject = []

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import API from './lib/api';
 import { Link } from 'react-router-dom';
+import Loading from './Components/Loading';
 
 const Library = () => {
 
@@ -11,6 +12,8 @@ const Library = () => {
         totalDuration: number
         stretchCount: number
     }>>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [loadError, setLoadError] = useState(false);
     const additional = document.getElementsByClassName('menu');
     const menuHeight = additional[0]?.clientHeight || 0;
 
@@ -52,13 +55,21 @@ const Library = () => {
             }
             catch (err) {
                 console.error(err);
+                setLoadError(true);
+            }
+            finally {
+                setIsLoading(false);
             }
         }
         getLibrary()
     }, [])
     return (
         <div>
-            {routine ? (
+            {isLoading ? (
+                <Loading />
+            ) : loadError ? (
+                <p className='mx-5 mt-5 text-center text-on-surface-variant'>Could not load routines. Please try again.</p>
+            ) : routine.length > 0 ? (
                 <div style={{ marginBottom: menuHeight + 20 }}>
                     <p className='mb-3 ml-5 text-2xl font-medium'>All sequences</p>
                     {
@@ -80,7 +91,9 @@ const Library = () => {
                         ))
                     }
                 </div >
-            ) : <p>Loading</p>}
+            ) : (
+                <p className='mx-5 mt-5 text-center text-on-surface-variant'>No routines available yet.</p>
+            )}
         </div>
 
     );
