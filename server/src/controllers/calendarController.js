@@ -12,7 +12,10 @@ const getCalendarEntries = async (req, res) => {
         const entries = await prisma.calendarEntry.findMany({
             where,
             include: { routine: true },
-            orderBy: { completedDate: 'desc' }
+            orderBy: [
+                { completedAt: 'desc' },
+                { id: 'desc' }
+            ]
         });
         res.status(200).json({ status: "success", data: { entries } });
     } catch (error) {

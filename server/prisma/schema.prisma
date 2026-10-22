@@ -77,6 +77,7 @@ model CalendarEntry {
   userId         String   @map("user_id")
   routineId      String   @map("routine_id")
   completedDate  DateTime @map("completed_date") @db.Date
+  completedAt    DateTime @default(now()) @map("completed_at") @db.Timestamptz(3)
   actualDuration Int?     @map("actual_duration")
   notes          String?
 

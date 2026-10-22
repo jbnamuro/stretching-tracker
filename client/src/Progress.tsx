@@ -10,6 +10,7 @@ const Progress = () => {
     const [entries, setEntries] = useState<Array<{
         id: string
         completedDate: string
+        completedAt: string
         actualDuration: number | null
         notes: string | null
         routine: { name: string }
@@ -40,6 +41,7 @@ const Progress = () => {
 
                 setDisplayName(userData.data.user.displayName)
                 setEntries(calendarData.data.entries)
+                console.log(calendarData.data.entries)
             }
             catch (err) {
                 console.error(err)
@@ -78,9 +80,13 @@ const Progress = () => {
             maxMinutes = day.minutes
         }
     }
+    const totalDuration = entries.reduce((total, entry) => total + (entry.actualDuration ?? 0), 0)
+    const averageDuration = entries.length > 0 ? Math.round(totalDuration / entries.length) : 0
+    const additional = document.getElementsByClassName('menu');
+    const menuHeight = additional[0]?.clientHeight || 0;
 
     return (
-        <div className="">
+        <div className="" style={{ marginBottom: menuHeight + 20 }}>
             {loading ? (
                 <Loading />
             ) : loadError ? (
@@ -89,8 +95,22 @@ const Progress = () => {
                 <>
                     <h1 className="text-2xl ml-5 font-medium">{displayName}</h1>
                     <div className="flex bg-surface-container-low justify-between items-center mt-5 mx-5 drop-shadow-lg rounded-lg p-5">
-                        <p>{entries.length} Sessions</p>
-                        <p>{Math.round(entries.reduce((acc, entry) => acc + (entry.actualDuration ?? 0), 0) / 60)} minutes</p>
+                        <div className="flex flex-col items-center">
+                            <p className="font-bold text-lg">{entries.length}</p>
+                            <p className="text-sm">Sessions</p>
+                        </div>
+                        <div className="flex flex-col items-center">
+                            <p className="font-bold text-lg">
+                                {`${Math.floor(totalDuration / 60).toString().padStart(2, '0')}:${(totalDuration % 60).toString().padStart(2, '0')}`}
+                            </p>
+                            <p className="text-sm">Total Time</p>
+                        </div>
+                        <div className="flex flex-col items-center">
+                            <p className="font-bold text-lg">
+                                {`${Math.floor(averageDuration / 60).toString().padStart(2, '0')}:${(averageDuration % 60).toString().padStart(2, '0')}`}
+                            </p>
+                            <p className="text-sm">Avg. Session</p>
+                        </div>
                     </div>
                     <div className="bg-surface-container-low rounded-xl mx-5 mt-5 p-5 drop-shadow-lg">
                         <h2 className="mb-5 text-lg font-medium">Volume this week</h2>
@@ -115,9 +135,33 @@ const Progress = () => {
                             })}
                         </div>
                     </div>
+                    <div>
+                        <h2 className="text-xl mt-5 ml-5 font-medium">Recent Movements</h2>
+                        {entries.length === 0 ? (
+                            <p className=" mt-5 text-center text-on-surface-variant">No recent movement yet.</p>
+                        ) : (entries.slice(0, 3).map((entry) => (
+                            <div key={entry.id} className="bg-surface-container-low flex justify-between rounded-xl mx-5 mt-5 p-5 drop-shadow-lg">
+                                <div>
+                                    <p className="text-lg font-medium">{entry.routine.name}</p>
+                                    <p className="text-sm text-on-surface-variant">
+                                        <span>
+                                            {new Date(entry.completedAt).toLocaleString(undefined, {
+                                                dateStyle: 'medium',
+                                            })}
+                                        </span><span> • </span>
+                                        <span>{new Date(entry.completedAt).toLocaleTimeString(undefined, {
+                                            timeStyle: 'short'
+                                        })}</span>
+                                    </p>
+                                </div>
+                                <p className="text-sm text-primary bg-primary-fixed-dim px-2 py-1 rounded-2xl h-fit">{Math.floor((entry.actualDuration ?? 0) / 60).toString().padStart(2, '0')}:{((entry.actualDuration ?? 0) % 60).toString().padStart(2, '0')}</p>
+                            </div>
+                        )))}
+                    </div>
                 </>
-            )}
-        </div>
+            )
+            }
+        </div >
     )
 }
 
