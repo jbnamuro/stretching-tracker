@@ -1,8 +1,8 @@
+import logo from '../assets/logo.png'
 const Header = () => {
     return (
         <div className='flex items-center py-4 justify-between px-5'>
-            <h1 className='text-primary font-semibold text-headline-sm'>STrack</h1>
-            {/* <img src={vector} alt="" className='w-4 h-4' /> */}
+            <img src={logo} alt="STrack Logo" className='w-10 h-10' />
         </div>
     )
 }
