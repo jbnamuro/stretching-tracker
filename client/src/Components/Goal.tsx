@@ -1,5 +1,4 @@
 import Vector from "../assets/clock.svg"
-import check from "../assets/checkCircle.svg"
 
 const Goal = ({ timeLeft, sessionsCompleted }: { timeLeft: number; sessionsCompleted: number }) => {
     return (
