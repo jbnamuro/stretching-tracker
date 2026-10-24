@@ -47,6 +47,7 @@ model Routine {
   userId        String   @map("user_id")
   name          String
   description   String?
+  iconName      String?  @map("icon_name")
   aiGenerated   Boolean  @default(false) @map("ai_generated")
   totalDuration Int      @default(0) @map("total_duration")
   createdAt     DateTime @default(now()) @map("created_at")

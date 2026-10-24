@@ -5,6 +5,7 @@ import Loading from './Components/Loading';
 import clock from './assets/clock.svg'
 import arm from './assets/arm.svg'
 import play from './assets/playBtn.svg'
+import { defaultRoutineIcon, routineIcons } from './lib/routineIcons'
 
 const Library = () => {
 
@@ -12,6 +13,7 @@ const Library = () => {
         routineName: string
         routineDescription: string | null
         routineID: string
+        iconName: string | null
         totalDuration: number
         stretchCount: number
     }>>([]);
@@ -43,6 +45,7 @@ const Library = () => {
                     routineName: string
                     routineDescription: string | null
                     routineID: string
+                    iconName: string | null
                     totalDuration: number
                     stretchCount: number
                 }> = [];
@@ -52,6 +55,7 @@ const Library = () => {
                         routineName: entries[i].name,
                         routineDescription: entries[i].description,
                         routineID: entries[i].id,
+                        iconName: entries[i].iconName,
                         totalDuration: entries[i].totalDuration,
                         stretchCount: entries[i]._count.routineStretches
                     });
@@ -78,12 +82,15 @@ const Library = () => {
             ) : routine.length > 0 ? (
                 <div style={{ marginBottom: menuHeight + 20 }}>
                     <div>
-                        <h1 className='ml-5 font-semibold text-4xl'>Routine Library</h1>
+                        <h1 className='ml-5 font-bold text-display-md'>Routine Library</h1>
                         <p className='ml-5 mt-1 text-md mb-5'>Curated movements designed to restore balance, flexibility, and daily mobility.</p>
                     </div>
                     <div className='mx-5 mb-5 bg-linear-to-br from-primary-fixed-dim to-surface-container-low p-5 rounded-3xl'>
                         <h2 className='font-semibold text-sm text-primary bg-surface-container-lowest w-fit px-3 py-1 rounded-3xl'>FEATURED STRETCH</h2>
-                        <p className='mt-5 text-2xl font-semibold'>{featuredRoutine?.routineName}</p>
+                        <div className='mt-5 flex items-center gap-3'>
+
+                            <p className='text-2xl font-semibold'>{featuredRoutine?.routineName}</p>
+                        </div>
                         <p className='mt-1 text-md text-on-surface-variant'>{featuredRoutine?.routineDescription}</p>
                         <div className='mt-5 flex gap-3'>
                             <div className='flex items-center gap-2 bg-surface-container-lowest w-fit rounded-lg px-3 py-1 text-primary'>
@@ -105,10 +112,15 @@ const Library = () => {
                     </div>
                     <p className='mb-3 ml-5 text-2xl font-medium'>All sequences</p>
                     {
-                        routine.map((entry, index) => (
-                            <div key={entry.routineID} className='mb-5 bg-surface-container-low drop-shadow-lg rounded-xl p-5 mx-5 flex gap-4'>
-                                <div className='bg-primary-fixed-dim h-fit py-1 px-3 flex justify-center items-center rounded-lg'>
-                                    <p className='text-primary'>{String(index + 1).padStart(2, '0')}</p>
+                        routine.map((entry) => (
+
+                            <div key={entry.routineID} className='mb-5 bg-surface-container-lowest drop-shadow-lg rounded-xl p-5 mx-5 flex gap-4'>
+                                <div className='bg-primary-fixed-dim h-fit py-2 px-2 flex justify-center items-center rounded-lg'>
+                                    <img
+                                        className='h-6 w-6 '
+                                        src={routineIcons[entry.iconName ?? ''] ?? defaultRoutineIcon}
+                                        alt=""
+                                    />
                                 </div>
                                 <div>
                                     <p className='text-lg font-medium mb-2'>{entry.routineName}</p>

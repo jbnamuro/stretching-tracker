@@ -93,8 +93,8 @@ const Progress = () => {
                 <p className="mx-5 mt-5 text-center text-on-surface-variant">Could not load progress. Please try again.</p>
             ) : (
                 <>
-                    <h1 className="text-2xl ml-5 font-medium">{displayName}</h1>
-                    <div className="flex bg-surface-container-low justify-between items-center mt-5 mx-5 drop-shadow-lg rounded-lg p-5">
+                    <h1 className="ml-5 font-bold text-display-md">{displayName}</h1>
+                    <div className="flex bg-surface-container-lowest justify-between items-center mt-5 mx-5 drop-shadow-lg rounded-lg p-5">
                         <div className="flex flex-col items-center">
                             <p className="font-bold text-lg">{entries.length}</p>
                             <p className="text-sm">Sessions</p>
@@ -112,7 +112,7 @@ const Progress = () => {
                             <p className="text-sm">Avg. Session</p>
                         </div>
                     </div>
-                    <div className="bg-surface-container-low rounded-xl mx-5 mt-5 p-5 drop-shadow-lg">
+                    <div className="bg-surface-container-lowest rounded-xl mx-5 mt-5 p-5 drop-shadow-lg">
                         <h2 className="mb-5 text-lg font-medium">Volume this week</h2>
                         <div className="grid grid-cols-7 gap-3" aria-label="Minutes of stretching from Monday to Sunday">
                             {week.map((day) => {
@@ -140,7 +140,7 @@ const Progress = () => {
                         {entries.length === 0 ? (
                             <p className=" mt-5 text-center text-on-surface-variant">No recent movement yet.</p>
                         ) : (entries.slice(0, 3).map((entry) => (
-                            <div key={entry.id} className="bg-surface-container-low flex justify-between rounded-xl mx-5 mt-5 p-5 drop-shadow-lg">
+                            <div key={entry.id} className="bg-surface-container-lowest flex justify-between rounded-xl mx-5 mt-5 p-5 drop-shadow-lg">
                                 <div>
                                     <p className="text-lg font-medium">{entry.routine.name}</p>
                                     <p className="text-sm text-on-surface-variant">

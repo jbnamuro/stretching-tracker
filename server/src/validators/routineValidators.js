@@ -3,6 +3,7 @@ import { z } from 'zod';
 export const createRoutineSchema = z.object({
     name: z.string().min(1),
     description: z.string().optional(),
+    iconName: z.string().min(1).max(64).optional(),
     aiGenerated: z.boolean().optional(),
     totalDuration: z.number().int().nonnegative().optional(),
 });

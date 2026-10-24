@@ -117,11 +117,15 @@ const Play = () => {
 
     return (
         <main className="mx-5 flex min-h-[65vh] flex-col items-center justify-between py-8 text-center">
-            <h1 className="w-full text-left font-display text-headline-sm font-semibold text-on-surface">
-                {currentStretch?.stretch.name || 'Loading movement...'}
-            </h1>
+            <div>
+                <h1 className="w-full font-display text-headline-sm font-semibold text-on-surface">
+                    {currentStretch?.stretch.name || 'Loading movement...'}
+                </h1>
+                <p className='font-light text-sm mt-2'>Stretch {stretchIndex + 1} of {stretches?.routineStretches.length}</p>
+            </div>
 
-            <p className="font-display text-[5rem] font-bold leading-none tabular-nums tracking-tight text-on-surface sm:text-[7rem]" role="timer" aria-live="off">
+
+            <p className="font-display text-[5rem] font-bold leading-none tabular-nums tracking-tight text-on-surface sm:text-[7rem]">
                 {minutes}:{seconds}
             </p>
 
