@@ -50,7 +50,7 @@ const Library = () => {
                     stretchCount: number
                 }> = [];
 
-                for (let i = 0; i < entries.length && i < 4; i++) {
+                for (let i = 0; i < entries.length; i++) {
                     routines.push({
                         routineName: entries[i].name,
                         routineDescription: entries[i].description,
@@ -83,7 +83,7 @@ const Library = () => {
                 <div style={{ marginBottom: menuHeight + 20 }}>
                     <div>
                         <h1 className='ml-5 font-bold text-display-md'>Routine Library</h1>
-                        <p className='ml-5 mt-1 text-md mb-5'>Curated movements designed to restore balance, flexibility, and daily mobility.</p>
+                        <p className='mx-5 mt-1 text-md mb-5'>Curated movements designed to restore balance, flexibility, and daily mobility.</p>
                     </div>
                     <div className='mx-5 mb-5 bg-linear-to-br from-primary-fixed-dim to-surface-container-low p-5 rounded-3xl'>
                         <h2 className='font-semibold text-sm text-primary bg-surface-container-lowest w-fit px-3 py-1 rounded-3xl'>FEATURED STRETCH</h2>
@@ -134,6 +134,11 @@ const Library = () => {
                             </div>
                         ))
                     }
+                    <Link to={'/routines/new'}>
+                        <div className='fixed bottom-0 right-5' style={{ marginBottom: menuHeight }}>
+                            <div className='bg-primary rounded-full px-5 py-5 cursor-pointer'></div>
+                        </div>
+                    </Link>
                 </div >
             ) : (
                 <p className='mx-5 mt-5 text-center text-on-surface-variant'>No routines available yet.</p>

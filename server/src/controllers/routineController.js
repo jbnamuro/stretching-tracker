@@ -8,8 +8,16 @@ const anthropic = new Anthropic({
 const getRoutines = async (req, res) => {
     try {
         const routines = await prisma.routine.findMany({
-            where: { userId: req.user.id },
-            orderBy: { createdAt: 'desc' },
+            where: {
+                OR: [
+                    { userId: req.user.id },
+                    { userId: null },
+                ],
+            },
+            orderBy: [
+                { userId: 'desc' },
+                { createdAt: 'desc' },
+            ],
             include: {
                 _count: {
                     select: { routineStretches: true }
@@ -34,7 +42,7 @@ const getRoutine = async (req, res) => {
                 }
             }
         });
-        if (!routine || routine.userId !== req.user.id) {
+        if (!routine || (routine.userId !== req.user.id && routine.userId !== null)) {
             return res.status(404).json({ message: "Routine not found" });
         }
         res.status(200).json({ status: "success", data: { routine } });

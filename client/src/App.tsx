@@ -9,6 +9,7 @@ import Menu from './Components/Menu'
 import Play from './Components/Play'
 import Progress from './Progress'
 import API from './lib/api'
+import NewRoutine from './Components/NewRoutine'
 
 type AuthStatus = 'checking' | 'authenticated' | 'unauthenticated'
 
@@ -44,6 +45,23 @@ const App = () => {
         verifySession()
     }, [])
 
+    const handleLogout = async () => {
+        try {
+            const response = await fetch(`${API}/auth/logout`, {
+                method: 'POST',
+                credentials: 'include'
+            })
+            if (!response.ok) {
+                console.error('Could not clear the server login session.')
+            }
+        } catch (error) {
+            console.error('Could not reach the server to clear the login session:', error)
+        } finally {
+            localStorage.removeItem('token')
+            setAuthStatus('unauthenticated')
+        }
+    }
+
     if (authStatus === 'checking') {
         return <Loading />
     }
@@ -54,7 +72,7 @@ const App = () => {
 
     return (
         <BrowserRouter>
-            <Header />
+            <Header onLogout={() => { void handleLogout() }} />
             <Menu />
 
             <Routes>
@@ -64,6 +82,7 @@ const App = () => {
                 <Route path='/progress' element={<Progress />} />
                 <Route path='/generate' element={<Navigate to='/progress' replace />} />
                 <Route path='routines/:id/play' element={<Play />} />
+                <Route path='/routines/new' element={<NewRoutine />} />
             </Routes>
         </BrowserRouter>
     )

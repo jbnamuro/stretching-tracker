@@ -44,7 +44,7 @@ const createCalendarEntry = async (req, res) => {
     try {
         const { routineId, completedDate, actualDuration, notes } = req.body;
         const routine = await prisma.routine.findUnique({ where: { id: routineId } });
-        if (!routine || routine.userId !== req.user.id) {
+        if (!routine || (routine.userId !== req.user.id && routine.userId !== null)) {
             return res.status(404).json({ message: "Routine not found" });
         }
         const entry = await prisma.calendarEntry.create({

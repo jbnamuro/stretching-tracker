@@ -27,7 +27,7 @@ model User {
 
 model Stretch {
   id              String   @id @default(uuid())
-  userId          String   @map("user_id")
+  userId          String?  @map("user_id")
   name            String
   description     String?
   durationSeconds Int      @map("duration_seconds")
@@ -36,7 +36,7 @@ model Stretch {
   isCustom        Boolean  @default(true) @map("is_custom")
   createdAt       DateTime @default(now()) @map("created_at")
 
-  user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user             User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
   routineStretches RoutineStretch[]
 
   @@map("stretches")
@@ -44,7 +44,7 @@ model Stretch {
 
 model Routine {
   id            String   @id @default(uuid())
-  userId        String   @map("user_id")
+  userId        String?  @map("user_id")
   name          String
   description   String?
   iconName      String?  @map("icon_name")
@@ -52,7 +52,7 @@ model Routine {
   totalDuration Int      @default(0) @map("total_duration")
   createdAt     DateTime @default(now()) @map("created_at")
 
-  user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user             User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
   routineStretches RoutineStretch[]
   calendarEntries  CalendarEntry[]
 
